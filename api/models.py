@@ -13,3 +13,5 @@ class Appointment(models.Model):
     subject = models.CharField(max_length=3, choices=presets.AVAILIBLE_SUBJECTS)
     scheduled_time = models.DateTimeField()
     price = models.PositiveIntegerField()
+
+    objects = models.Manager()
