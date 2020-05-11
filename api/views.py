@@ -18,3 +18,12 @@ def AppointmentDetail(request, pk):
     appointments = Appointment.objects.get(id=pk)
     serializer = AppointmentSerializer(appointments, many=False)
     return Response(serializer.data)
+
+@api_view(["POST"])
+def AppointmentNew(request):
+    serializer = AppointmentSerializer(request.data)
+
+    if serializer.is_valid:
+        serializer.save()
+
+    return Response(serializer.data)
