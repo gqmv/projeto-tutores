@@ -5,8 +5,8 @@ from general.models import Appointment
 from django.contrib.auth.models import User
 
 
-class AppointmentSerializer(serializers.ModelSerializer):
-    tutor = serializers.ReadOnlyField(source="tutor.username")
+class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
+    tutor = serializers.HyperlinkedRelatedField(many=False, view_name="api-user-detail", read_only=True)
 
     class Meta:
         model = Appointment
