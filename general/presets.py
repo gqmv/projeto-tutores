@@ -4,3 +4,6 @@ AVAILIBLE_SUBJECTS = [
     ("ENG", "English"),
     ("PHY", "Physics"),
 ]
+
+AD_TYPES = [("T", "TEACH"), ("L", "LEARN")]
+
