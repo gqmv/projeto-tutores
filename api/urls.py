@@ -2,23 +2,15 @@ from django.contrib import admin
 from django.urls import path, include
 
 from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework.routers import DefaultRouter
 
 from . import views
 
+router = DefaultRouter()
+
+router.register(r"appointments", views.AppointmentViewSet)
+router.register(r"users", views.UserViewSet)
 urlpatterns = [
-    path("", views.api_root, name="api-root"),
-
     path("auth/", include("rest_framework.urls"), name="api-auth"),
-
-    path("appointments/", views.Appointments.as_view(), name="api-appointments"),
-    path(
-        "appointments/<int:pk>/",
-        views.AppointmentDetail.as_view(),
-        name="api-appointment-detail",
-    ),
-    
-    path("users/", views.Users.as_view(), name="api-users"),
-    path("users/<int:pk>/", views.UserDetail.as_view(), name="api-user-detail"),
+    path("", include(router.urls)),
 ]
-
-urlpatterns = format_suffix_patterns(urlpatterns)
