@@ -11,7 +11,7 @@ class Appointment(models.Model):
     #     User, null=False, on_delete=models.CASCADE, related_name="appointments_student"
     # )
     subject = models.CharField(max_length=3, choices=presets.AVAILIBLE_SUBJECTS)
-    scheduled_time = models.DateTimeField()
+    # scheduled_time = models.DateTimeField()
     price = models.PositiveIntegerField()
 
     objects = models.Manager()
