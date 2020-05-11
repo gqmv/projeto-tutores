@@ -4,9 +4,9 @@ from . import presets
 
 
 class Appointment(models.Model):
-    # tutor = models.ForeignKey(
-    #     User, null=False, on_delete=models.CASCADE, related_name="appointments_tutor"
-    # )
+    tutor = models.ForeignKey(
+        User, null=False, on_delete=models.CASCADE, related_name="appointments_tutor"
+    )
     # student = models.ForeignKey(
     #     User, null=False, on_delete=models.CASCADE, related_name="appointments_student"
     # )
