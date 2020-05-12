@@ -17,20 +17,30 @@ class Ad(models.Model):
 
 
 class Appointment(models.Model):
-    tutor = models.ForeignKey(
-        User, null=False, on_delete=models.CASCADE, related_name="appointments_tutor"
-    )
-    student = models.ForeignKey(
-        User, null=False, on_delete=models.CASCADE, related_name="appointments_student"
+
+    author = models.ForeignKey(
+        User, null=False, on_delete=models.CASCADE, related_name="appointments_author"
     )
     ad = models.ForeignKey(
         Ad, null=False, on_delete=models.CASCADE, related_name="appointments_ad"
     )
 
-    subject = models.CharField(max_length=3, choices=presets.AVAILIBLE_SUBJECTS)
     # scheduled_time = models.DateTimeField()
-    price = models.PositiveIntegerField()
 
     is_confirmed = models.BooleanField(default=False)
 
     objects = models.Manager()
+
+    @property
+    def tutor(self):
+        if self.ad.ad_type == "T":
+            return self.ad.author
+        else:
+            return self.author
+
+    @property
+    def student(self):
+        if self.ad.ad_type == "L":
+            return self.ad.author
+        else:
+            return self.author

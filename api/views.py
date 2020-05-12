@@ -17,8 +17,14 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     serializer_class = AppointmentSerializer
     permissions = [custom_permissions.IsOwnerOrReadOnly]
 
+    def update(self, request):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def partial_update(self, request):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
     def perform_create(self, serializer):
-        serializer.save(tutor=self.request.user)
+        serializer.save(author=self.request.user, is_confirmed=False)
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -38,7 +44,7 @@ class AdViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+        serializer.save(author=self.request.user, is_availible=True)
 
 
 class TutorAdViewSet(AdViewSet):

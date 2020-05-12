@@ -6,19 +6,24 @@ from django.contrib.auth.models import User
 
 
 class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
+    author = serializers.HyperlinkedRelatedField(
+        many=False, view_name="user-detail", read_only=True
+    )
     tutor = serializers.HyperlinkedRelatedField(
         many=False, view_name="user-detail", read_only=True
     )
     student = serializers.HyperlinkedRelatedField(
         many=False, view_name="user-detail", read_only=True
     )
-    ad = serializers.HyperlinkedRelatedField(
-        many=False, view_name="ad-detail", read_only=True
+
+    # TODO: Change implementation to nested serializer.
+    ad = serializers.PrimaryKeyRelatedField(
+        queryset=models.Ad.objects.all(), required=True
     )
 
     class Meta:
         model = models.Appointment
-        fields = ["id", "tutor", "student", "price", "subject"]
+        fields = ["id", "author", "ad", "tutor", "student", "is_confirmed"]
 
 
 class AdSerializer(serializers.HyperlinkedModelSerializer):
@@ -32,10 +37,6 @@ class AdSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    appointments_tutor = serializers.HyperlinkedRelatedField(
-        many=True, view_name="appointment-detail", read_only=True
-    )
-
     class Meta:
         model = User
-        fields = ["username", "id", "appointments_tutor"]
+        fields = ["username", "id"]
