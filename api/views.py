@@ -6,7 +6,7 @@ from rest_framework import viewsets
 from rest_framework import status
 
 from general.models import Appointment, Ad
-from .serializers import AppointmentSerializer, UserSerializer, AdSerializer
+from .serializers import *
 from . import permissions as custom_permissions
 
 from django.contrib.auth.models import User
@@ -14,16 +14,19 @@ from django.contrib.auth.models import User
 
 class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
-    serializer_class = AppointmentSerializer
-    permissions = [custom_permissions.IsOwnerOrReadOnly]
+    serializer_class = get_serializer_class()
+    permission_classes = [custom_permissions.AppointmentAccept]
 
-    def update(self, request):
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return AppointmentSerializerPOST
+        else:
+            return AppointmentSerializer
 
-    def partial_update(self, request):
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    def peform_update(self, serializer, pk):
+        serializer.save(author=self.request.user)
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer, pk):
         serializer.save(author=self.request.user, is_confirmed=False)
 
 
@@ -35,12 +38,12 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 class AdViewSet(viewsets.ModelViewSet):
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
-    permissions = [custom_permissions.IsOwnerOrReadOnly]
+    permission_classes = [custom_permissions.IsAuthorOrReadOnly]
 
-    def update(self, request):
+    def update(self, request, pk):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    def partial_update(self, request):
+    def partial_update(self, request, pk):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def perform_create(self, serializer):

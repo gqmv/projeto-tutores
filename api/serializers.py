@@ -16,7 +16,14 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
         many=False, view_name="user-detail", read_only=True
     )
 
-    # TODO: Change implementation to nested serializer.
+    ad = serializers.PrimaryKeyRelatedField(read_only=True, many=False)
+
+    class Meta:
+        model = models.Appointment
+        fields = ["id", "author", "ad", "tutor", "student", "is_confirmed"]
+
+
+class AppointmentSerializerPOST(AppointmentSerializer):
     ad = serializers.PrimaryKeyRelatedField(
         queryset=models.Ad.objects.all(), required=True
     )
