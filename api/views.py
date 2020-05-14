@@ -22,10 +22,18 @@ class AppointmentViewSet(viewsets.ModelViewSet):
         else:
             return AppointmentSerializer
 
-    def peform_update(self, serializer, pk):
-        serializer.save(author=self.request.user)
+    def perform_update(self, serializer):
+        pk = serializer.instance.id
+        appointment = Appointment.objects.get(id=pk)
+        ad = appointment.ad
+        non_confirmed_appointments = ad.appointment_set.exclude(id=pk)
+        for non_confirmed_appointment in non_confirmed_appointments:
+            non_confirmed_appointment.delete()
 
-    def perform_create(self, serializer, pk):
+        ad.is_availible = False
+        serializer.save(author=self.request.user, is_confirmed=True)
+
+    def perform_create(self, serializer):
         serializer.save(author=self.request.user, is_confirmed=False)
 
 

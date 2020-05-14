@@ -5,7 +5,7 @@ from . import presets
 
 class Ad(models.Model):
     author = models.ForeignKey(
-        User, null=False, on_delete=models.CASCADE, related_name="ads"
+        User, null=False, on_delete=models.CASCADE, related_name="ad_set"
     )
     subject = models.CharField(max_length=3, choices=presets.AVAILIBLE_SUBJECTS)
     price = models.PositiveIntegerField()
@@ -19,10 +19,10 @@ class Ad(models.Model):
 class Appointment(models.Model):
 
     author = models.ForeignKey(
-        User, null=False, on_delete=models.CASCADE, related_name="appointments_author"
+        User, null=False, on_delete=models.CASCADE, related_name="appointment_set"
     )
     ad = models.ForeignKey(
-        Ad, null=False, on_delete=models.CASCADE, related_name="appointments_ad"
+        Ad, null=False, on_delete=models.CASCADE, related_name="appointment_set"
     )
 
     # scheduled_time = models.DateTimeField()
