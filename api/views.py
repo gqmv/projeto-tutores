@@ -14,7 +14,6 @@ from django.contrib.auth.models import User
 
 class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
-    serializer_class = get_serializer_class()
     permission_classes = [custom_permissions.AppointmentAccept]
 
     def get_serializer_class(self):
