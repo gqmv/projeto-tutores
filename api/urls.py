@@ -8,12 +8,10 @@ from . import views
 
 router = DefaultRouter()
 
-router.register(r"appointments", views.AppointmentViewSet)
-router.register(r"users", views.UserViewSet)
-router.register(r"tutor-ads", views.TutorAdViewSet)
-router.register(r"student-ads", views.StudentAdViewSet)
-router.register(r"ads", views.AdViewSet)
+router.register(r"appointments", views.AppointmentViewSet, basename="appointments")
+router.register(r"users", views.UserViewSet, basename="users")
+router.register(r"ads", views.AdViewSet, basename="ads")
 urlpatterns = [
     path("auth/", include("rest_framework.urls"), name="api-auth"),
-    path("", include(router.urls)),
+    path("", include((router.urls, "api"))),
 ]

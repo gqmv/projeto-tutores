@@ -7,13 +7,13 @@ from django.contrib.auth.models import User
 
 class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
     author = serializers.HyperlinkedRelatedField(
-        many=False, view_name="user-detail", read_only=True
+        many=False, view_name="api:user-detail", read_only=True
     )
     tutor = serializers.HyperlinkedRelatedField(
-        many=False, view_name="user-detail", read_only=True
+        many=False, view_name="api:user-detail", read_only=True
     )
     student = serializers.HyperlinkedRelatedField(
-        many=False, view_name="user-detail", read_only=True
+        many=False, view_name="api:user-detail", read_only=True
     )
 
     ad = serializers.PrimaryKeyRelatedField(read_only=True, many=False)
@@ -35,7 +35,7 @@ class AppointmentSerializerPOST(AppointmentSerializer):
 
 class AdSerializer(serializers.HyperlinkedModelSerializer):
     author = serializers.HyperlinkedRelatedField(
-        many=False, view_name="user-detail", read_only=True
+        many=False, view_name="api:user-detail", read_only=True
     )
 
     class Meta:
