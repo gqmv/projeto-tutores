@@ -7,7 +7,7 @@ coverage==5.1
 django==3.1a1
 djangorestframework==3.11.0
 idna==2.9
-pillow==7.1.2
+pillow==9.3.0
 pytz==2020.1
 requests==2.23.0
 sqlparse==0.3.1
